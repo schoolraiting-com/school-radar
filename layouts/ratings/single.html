@@ -1,28 +1,206 @@
 {{ define "main" }}
-<article class="container content-page">
+<article class="container content-page rating-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <a href="/ratings/">Рейтинги</a>
+    <span class="bc-sep">/</span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <!-- EEAT -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
+    </div>
+    <div class="eeat-meta">
+      <span>Опубликовано: {{ .Date.Format "02.01.2006" }}</span>
+      {{ with .Params.updated }}<span>Обновлено: {{ . }}</span>{{ end }}
+    </div>
+  </div>
+
   <h1>{{ .Title }}</h1>
   <p class="rating-intro">{{ .Description }}</p>
 
+  <!-- Methodology -->
+  {{ with .Params.methodology }}
+  <div class="methodology-block">
+    <div class="methodology-header">
+      <span class="methodology-icon">&#9881;</span>
+      <strong>Как мы составляли рейтинг</strong>
+    </div>
+    <div class="methodology-criteria">
+      {{ range . }}
+      <div class="methodology-item">
+        <span class="methodology-label">{{ .name }}</span>
+        <div class="methodology-bar-bg">
+          <div class="methodology-bar" style="width: {{ .weight }}%"></div>
+        </div>
+        <span class="methodology-pct">{{ .weight }}%</span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Quick navigation -->
+  {{ if .Params.schools }}
+  <div class="rating-quicknav">
+    <strong>Быстрая навигация:</strong>
+    <div class="rating-quicknav-list">
+      {{ range $i, $school := .Params.schools }}
+      <a href="#school-{{ $i }}" class="rating-quicknav-item">
+        <span class="rating-quicknav-pos">{{ add $i 1 }}</span>
+        {{ $school.name }}
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Main content (markdown intro) -->
   {{ .Content }}
 
+  <!-- Schools list -->
   {{ if .Params.schools }}
-  <div class="rating-list">
+  <div class="rating-schools-list">
     {{ range $i, $school := .Params.schools }}
-    <div class="rating-item">
-      <div class="rating-position">{{ add $i 1 }}</div>
-      <div class="rating-item-info">
-        <h3>{{ $school.name }}</h3>
-        <span class="rating-num">★ {{ $school.rating }}/10</span>
-        <p>{{ $school.description }}</p>
-        {{ with $school.price }}<span class="price-tag">от {{ . }}</span>{{ end }}
+    <div class="rating-school-card" id="school-{{ $i }}">
+      <div class="rsc-header">
+        <div class="rsc-position">
+          {{ if eq $i 0 }}<span class="rsc-crown">&#9733;</span>{{ end }}
+          <span class="rsc-pos-num">{{ add $i 1 }}</span>
+        </div>
+        <div class="rsc-logo-stub"></div>
+        <div class="rsc-title">
+          <h3>{{ $school.name }}</h3>
+          <span class="rsc-rating">★ {{ $school.rating }}/10</span>
+        </div>
       </div>
-      <div class="rating-item-action">
-        {{ with $school.url }}<a href="{{ . }}" class="btn-outline">Обзор</a>{{ end }}
-        {{ with $school.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
+
+      <p class="rsc-description">{{ $school.description }}</p>
+
+      {{ with $school.highlights }}
+      <div class="rsc-highlights">
+        {{ range . }}
+        <span class="rsc-highlight">{{ . }}</span>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      <div class="rsc-footer">
+        <div class="rsc-price">
+          {{ with $school.price }}<span class="price-tag">от {{ . }}</span>{{ end }}
+          {{ with $school.trial }}<span class="rsc-trial">{{ . }}</span>{{ end }}
+        </div>
+        <div class="rsc-actions">
+          {{ with $school.url }}<a href="{{ . }}" class="btn-outline">Обзор →</a>{{ end }}
+          {{ with $school.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
+        </div>
       </div>
     </div>
     {{ end }}
   </div>
   {{ end }}
+
+  <!-- Comparison table -->
+  {{ if .Params.schools }}
+  <div class="rating-compare-section">
+    <h2>Сводная таблица</h2>
+    <div class="compare-table-wrap">
+      <table class="compare-table rating-summary-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Школа</th>
+            <th>Рейтинг</th>
+            <th>Цена</th>
+            <th>Пробный урок</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range $i, $school := .Params.schools }}
+          <tr>
+            <td>{{ add $i 1 }}</td>
+            <td>{{ with $school.url }}<a href="{{ . }}">{{ $school.name }}</a>{{ else }}{{ $school.name }}{{ end }}</td>
+            <td><span class="rsc-rating">★ {{ $school.rating }}</span></td>
+            <td>{{ with $school.price }}от {{ . }}{{ else }}—{{ end }}</td>
+            <td>{{ with $school.trial }}{{ . }}{{ else }}—{{ end }}</td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- FAQ -->
+  {{ if .Params.faq }}
+  <h2>Частые вопросы</h2>
+  <div class="faq-accordion">
+    {{ range .Params.faq }}
+    <details class="faq-item">
+      <summary>{{ .q }}</summary>
+      <p>{{ .a }}</p>
+    </details>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Related ratings -->
+  {{ with .Params.related_ratings }}
+  <div class="interlink-section">
+    <h2>Другие рейтинги</h2>
+    <div class="interlink-grid">
+      {{ range . }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Независимая редакция School Radar анализирует онлайн-школы на основе открытых данных, отзывов пользователей и собственного тестирования. Мы не принимаем оплату за позиции в рейтингах.</p>
+      </div>
+    </div>
+  </div>
+
 </article>
+
+{{ if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{ range $i, $item := .Params.faq }}
+    {{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $item.a }}"
+      }
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
 {{ end }}
