@@ -1,0 +1,20 @@
+baseURL = 'https://school-radar.com/'
+languageCode = 'ru'
+title = 'School Radar — Рейтинг онлайн-школ для детей'
+defaultContentLanguage = 'ru'
+
+[params]
+  description = 'Независимый рейтинг и обзоры детских онлайн-школ. Сравнение цен, программ и отзывов.'
+  author = 'School Radar'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[outputs]
+  home = ['HTML', 'RSS']
+
+[sitemap]
+  changefreq = 'weekly'
+  priority = 0.5

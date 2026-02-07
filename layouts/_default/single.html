@@ -1,0 +1,12 @@
+{{ define "main" }}
+<article class="container content-page">
+  <h1>{{ .Title }}</h1>
+  {{ with .Params.rating }}<div class="rating-badge">★ {{ . }}/10</div>{{ end }}
+  {{ .Content }}
+  {{ with .Params.affiliate_url }}
+  <div class="cta-box">
+    <a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать бесплатно →</a>
+  </div>
+  {{ end }}
+</article>
+{{ end }}
