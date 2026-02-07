@@ -28,6 +28,27 @@ schools:
     trial: "Бесплатный пробный урок"
     url: "/schools/ukids/"
     affiliate_url: "https://best-trening.ru/?o=41031&w=594199&l=8"
+    scores:
+      - name: "Программы"
+        value: 9
+      - name: "Отзывы"
+        value: 9
+      - name: "Цена"
+        value: 7
+      - name: "Удобство"
+        value: 8
+      - name: "Педагоги"
+        value: 9
+    pros:
+      - "Уникальная методика развития soft skills"
+      - "90% урока — практика в мини-группах"
+      - "Еженедельные отчёты о прогрессе"
+    cons:
+      - "Нет академических предметов"
+      - "Цена выше среднего по рынку"
+    promo_url: "/promocodes/ukids/"
+    reviews_url: "/schools/ukids/#reviews"
+    compare_url: "/compare/ukids-vs-tetrika/"
   - name: "Тетрика"
     rating: 8.0
     description: "Индивидуальные занятия по школьным предметам с репетиторами. Подготовка к ЕГЭ, ОГЭ и олимпиадам."
@@ -39,6 +60,27 @@ schools:
     trial: "Бесплатный пробный урок"
     url: "/schools/tetrika/"
     affiliate_url: "#"
+    scores:
+      - name: "Программы"
+        value: 8
+      - name: "Отзывы"
+        value: 8
+      - name: "Цена"
+        value: 9
+      - name: "Удобство"
+        value: 7
+      - name: "Педагоги"
+        value: 8
+    pros:
+      - "Индивидуальный подход — занятия 1 на 1"
+      - "Широкий выбор школьных предметов"
+      - "Подготовка к ЕГЭ и ОГЭ"
+    cons:
+      - "Нет групповых занятий"
+      - "Качество зависит от конкретного репетитора"
+    promo_url: "/promocodes/tetrika/"
+    reviews_url: "/schools/tetrika/#reviews"
+    compare_url: "/compare/ukids-vs-tetrika/"
   - name: "Айтигенио"
     rating: 7.8
     description: "Программирование и IT для детей от 6 лет. Python, Scratch, робототехника, 3D-моделирование."
@@ -50,6 +92,27 @@ schools:
     trial: "Бесплатный пробный урок"
     url: "/schools/itigenio/"
     affiliate_url: "#"
+    scores:
+      - name: "Программы"
+        value: 9
+      - name: "Отзывы"
+        value: 8
+      - name: "Цена"
+        value: 7
+      - name: "Удобство"
+        value: 7
+      - name: "Педагоги"
+        value: 8
+    pros:
+      - "Широкий выбор IT-направлений"
+      - "Индивидуальные занятия с преподавателем"
+      - "Программы для детей от 6 лет"
+    cons:
+      - "Только IT-направления"
+      - "Нет групповых форматов"
+    promo_url: "/promocodes/itigenio/"
+    reviews_url: "/schools/itigenio/#reviews"
+    compare_url: "/compare/itigenio-vs-advance/"
   - name: "Advance (Центр Advance)"
     rating: 7.6
     description: "Развитие памяти, скорочтение и технологии обучения. Помогает учиться эффективнее."
@@ -61,6 +124,27 @@ schools:
     trial: "Бесплатный вебинар"
     url: "/schools/advance/"
     affiliate_url: "#"
+    scores:
+      - name: "Программы"
+        value: 8
+      - name: "Отзывы"
+        value: 7
+      - name: "Цена"
+        value: 7
+      - name: "Удобство"
+        value: 8
+      - name: "Педагоги"
+        value: 8
+    pros:
+      - "Уникальные методики развития памяти"
+      - "Помогает учиться эффективнее в школе"
+      - "Подходит для разных возрастов"
+    cons:
+      - "Узкая специализация — только когнитивные навыки"
+      - "Мало отзывов в открытых источниках"
+    promo_url: "/promocodes/advance/"
+    reviews_url: "/schools/advance/#reviews"
+    compare_url: "/compare/itigenio-vs-advance/"
   - name: "Центр Ахмадуллина"
     rating: 7.5
     description: "Скорочтение и развитие интеллекта для детей. Авторская методика Шамиля Ахмадуллина."
@@ -72,6 +156,27 @@ schools:
     trial: "Бесплатный урок"
     url: "/schools/ahmadullin/"
     affiliate_url: "#"
+    scores:
+      - name: "Программы"
+        value: 7
+      - name: "Отзывы"
+        value: 8
+      - name: "Цена"
+        value: 9
+      - name: "Удобство"
+        value: 7
+      - name: "Педагоги"
+        value: 7
+    pros:
+      - "Самая доступная цена в рейтинге"
+      - "Проверенная авторская методика"
+      - "Хорошие отзывы родителей"
+    cons:
+      - "Только скорочтение и развитие интеллекта"
+      - "Меньше разнообразие форматов"
+    promo_url: "/promocodes/ahmadullin/"
+    reviews_url: "/schools/ahmadullin/#reviews"
+    compare_url: "/compare/ahmadullin-vs-advance/"
 
 faq:
   - q: "Какая онлайн-школа лучше всего подходит для детей 6-10 лет?"
