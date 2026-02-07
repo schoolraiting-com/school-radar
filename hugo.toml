@@ -1,4 +1,4 @@
-baseURL = 'https://school-radar.com/'
+baseURL = 'https://school-radar.pages.dev/'
 languageCode = 'ru'
 title = 'School Radar — Рейтинг онлайн-школ для детей'
 defaultContentLanguage = 'ru'
