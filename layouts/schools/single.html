@@ -1,0 +1,173 @@
+{{ define "main" }}
+<article class="container content-page school-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs">
+    <a href="/">Главная</a> →
+    <a href="/schools/">Школы</a> →
+    {{ with .Params.category }}<a href="/categories/{{ . }}/">{{ . }}</a> →{{ end }}
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <!-- Hero block -->
+  <div class="school-hero">
+    <div class="school-hero-info">
+      <h1>{{ .Params.school_name | default .Title }}</h1>
+      {{ with .Params.tagline }}<p class="school-tagline">{{ . }}</p>{{ end }}
+      {{ with .Params.rating }}<div class="rating-badge">★ {{ . }}/10</div>{{ end }}
+    </div>
+    {{ with .Params.affiliate_url }}
+    <div class="school-hero-cta">
+      <a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать бесплатно →</a>
+    </div>
+    {{ end }}
+  </div>
+
+  <!-- Quick facts -->
+  {{ with .Params.facts }}
+  <div class="quick-facts">
+    {{ with .age }}<div class="fact"><span class="fact-label">Возраст</span><span class="fact-value">{{ . }}</span></div>{{ end }}
+    {{ with .price }}<div class="fact"><span class="fact-label">Цена</span><span class="fact-value">от {{ . }}</span></div>{{ end }}
+    {{ with .trial }}<div class="fact"><span class="fact-label">Пробный урок</span><span class="fact-value">{{ . }}</span></div>{{ end }}
+    {{ with .format }}<div class="fact"><span class="fact-label">Формат</span><span class="fact-value">{{ . }}</span></div>{{ end }}
+    {{ with .subjects }}<div class="fact"><span class="fact-label">Направления</span><span class="fact-value">{{ . }}</span></div>{{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Table of contents -->
+  <div class="toc-block">
+    <strong>Содержание:</strong>
+    <ul>
+      <li><a href="#about">О школе</a></li>
+      <li><a href="#programs">Программы обучения</a></li>
+      <li><a href="#prices">Цены и тарифы</a></li>
+      <li><a href="#pros-cons">Плюсы и минусы</a></li>
+      <li><a href="#format">Как проходят занятия</a></li>
+      <li><a href="#reviews">Отзывы родителей</a></li>
+      <li><a href="#faq">Частые вопросы</a></li>
+      <li><a href="#verdict">Наш вердикт</a></li>
+    </ul>
+  </div>
+
+  <!-- Main content (markdown) -->
+  {{ .Content }}
+
+  <!-- ===== INTERLINKING BLOCKS ===== -->
+
+  <!-- Promo link -->
+  {{ with .Params.promo_url }}
+  <div class="interlink-box interlink-promo">
+    <span class="interlink-icon">🏷</span>
+    <div>
+      <strong>Промокоды и скидки {{ $.Params.school_name }}</strong>
+      <p>Актуальные промокоды и акции этой школы</p>
+    </div>
+    <a href="{{ . }}" class="btn-outline">Смотреть промокоды →</a>
+  </div>
+  {{ end }}
+
+  <!-- Compare links -->
+  {{ with .Params.comparisons }}
+  <div class="interlink-section">
+    <h2>Сравнение с другими школами</h2>
+    <div class="interlink-grid">
+      {{ range . }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Rating links -->
+  {{ with .Params.in_ratings }}
+  <div class="interlink-section">
+    <h2>{{ $.Params.school_name }} в рейтингах</h2>
+    <div class="interlink-grid">
+      {{ range . }}
+      <a href="{{ .url }}" class="interlink-card">
+        <span class="interlink-position">#{{ .position }}</span>
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Related blog posts -->
+  {{ with .Params.related_posts }}
+  <div class="interlink-section">
+    <h2>Полезные статьи</h2>
+    <div class="interlink-grid">
+      {{ range . }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Final CTA -->
+  {{ with .Params.affiliate_url }}
+  <div class="cta-box">
+    <h3>Попробуйте {{ $.Params.school_name }} бесплатно</h3>
+    <p>Запишитесь на пробный урок и оцените школу сами</p>
+    <a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Записаться на пробный урок →</a>
+  </div>
+  {{ end }}
+
+</article>
+
+<!-- Schema.org markup -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "itemReviewed": {
+    "@type": "EducationalOrganization",
+    "name": "{{ .Params.school_name | default .Title }}"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "{{ .Params.rating }}",
+    "bestRating": "10"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "School Radar"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "School Radar"
+  }
+}
+</script>
+
+{{ if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{ range $i, $item := .Params.faq }}
+    {{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $item.a }}"
+      }
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
+{{ end }}
