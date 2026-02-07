@@ -1,13 +1,47 @@
 <header class="site-header">
-  <div class="container">
-    <a href="/" class="logo">School Radar</a>
-    <nav>
+  <div class="container header-inner">
+    <a href="/" class="header-logo">
+      <span class="header-logo-name">School Radar</span>
+      <span class="header-logo-tagline">честный рейтинг школ</span>
+    </a>
+
+    <div class="header-actions">
+      <!-- Email subscribe icon -->
+      <button class="header-icon-btn" id="btn-subscribe" aria-label="Подписаться на рассылку">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      </button>
+
+      <!-- Gift/offer icon with badge -->
+      <button class="header-icon-btn header-gift-btn" id="btn-offer" aria-label="Специальное предложение">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>
+        <span class="header-badge"></span>
+      </button>
+
+      <!-- Burger menu -->
+      <button class="header-burger" id="btn-menu" aria-label="Меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav class="header-nav" id="main-nav">
+    <div class="container">
       <a href="/schools/">Школы</a>
       <a href="/categories/">Направления</a>
       <a href="/ratings/">Рейтинги</a>
       <a href="/compare/">Сравнения</a>
       <a href="/promocodes/">Промокоды</a>
       <a href="/blog/">Блог</a>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </header>
+
+<script>
+document.getElementById('btn-menu').addEventListener('click', function() {
+  document.getElementById('main-nav').classList.toggle('nav-open');
+  this.classList.toggle('burger-open');
+});
+</script>
