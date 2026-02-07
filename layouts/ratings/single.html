@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="container content-page">
+  <h1>{{ .Title }}</h1>
+  <p class="rating-intro">{{ .Description }}</p>
+
+  {{ .Content }}
+
+  {{ if .Params.schools }}
+  <div class="rating-list">
+    {{ range $i, $school := .Params.schools }}
+    <div class="rating-item">
+      <div class="rating-position">{{ add $i 1 }}</div>
+      <div class="rating-item-info">
+        <h3>{{ $school.name }}</h3>
+        <span class="rating-num">★ {{ $school.rating }}/10</span>
+        <p>{{ $school.description }}</p>
+        {{ with $school.price }}<span class="price-tag">от {{ . }}</span>{{ end }}
+      </div>
+      <div class="rating-item-action">
+        {{ with $school.url }}<a href="{{ . }}" class="btn-outline">Обзор</a>{{ end }}
+        {{ with $school.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+</article>
+{{ end }}

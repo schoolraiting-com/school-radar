@@ -1,0 +1,59 @@
+{{ define "main" }}
+<article class="container content-page compare-page">
+  <h1>{{ .Title }}</h1>
+  <p class="compare-subtitle">{{ .Description }}</p>
+
+  {{ if and .Params.school_a .Params.school_b }}
+  <div class="compare-table-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Критерий</th>
+          <th class="school-col">{{ .Params.school_a.name }}</th>
+          <th class="school-col">{{ .Params.school_b.name }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Общий рейтинг</td>
+          <td><span class="rating-num">★ {{ .Params.school_a.rating }}/10</span></td>
+          <td><span class="rating-num">★ {{ .Params.school_b.rating }}/10</span></td>
+        </tr>
+        <tr>
+          <td>Цена</td>
+          <td>{{ .Params.school_a.price }}</td>
+          <td>{{ .Params.school_b.price }}</td>
+        </tr>
+        <tr>
+          <td>Возраст</td>
+          <td>{{ .Params.school_a.age }}</td>
+          <td>{{ .Params.school_b.age }}</td>
+        </tr>
+        <tr>
+          <td>Пробный урок</td>
+          <td>{{ .Params.school_a.trial }}</td>
+          <td>{{ .Params.school_b.trial }}</td>
+        </tr>
+        <tr>
+          <td>Направления</td>
+          <td>{{ .Params.school_a.subjects }}</td>
+          <td>{{ .Params.school_b.subjects }}</td>
+        </tr>
+        <tr>
+          <td>Формат</td>
+          <td>{{ .Params.school_a.format }}</td>
+          <td>{{ .Params.school_b.format }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="compare-cta">
+    {{ with .Params.school_a.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать {{ $.Params.school_a.name }} →</a>{{ end }}
+    {{ with .Params.school_b.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button cta-button-alt">Попробовать {{ $.Params.school_b.name }} →</a>{{ end }}
+  </div>
+  {{ end }}
+
+  {{ .Content }}
+</article>
+{{ end }}

@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="container content-page promo-page">
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Description }}</p>
+
+  {{ if .Params.codes }}
+  <div class="promo-list">
+    {{ range .Params.codes }}
+    <div class="promo-card">
+      <div class="promo-info">
+        <span class="promo-discount">{{ .discount }}</span>
+        <p class="promo-desc">{{ .description }}</p>
+        {{ with .expires }}<span class="promo-expires">Действует до {{ . }}</span>{{ end }}
+      </div>
+      <div class="promo-action">
+        {{ if .code }}
+        <div class="promo-code">{{ .code }}</div>
+        {{ end }}
+        {{ with .url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Активировать →</a>{{ end }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ .Content }}
+</article>
+{{ end }}
