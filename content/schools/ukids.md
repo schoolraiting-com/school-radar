@@ -97,18 +97,23 @@ Ukids (Юкидс) — онлайн-школа развития soft skills дл
 
 <h2 id="pros-cons">Подробнее о плюсах и минусах</h2>
 
-**Плюсы:**
-- Средняя оценка занятий от родителей — 9 из 10
-- Большой выбор дат и времени занятий
-- Доступно из любой точки мира
-- Еженедельные персональные отчёты о прогрессе
-- Все педагоги — дипломированные специалисты
-- Мини-группы — каждый ребёнок вовлечён
-
-**Минусы:**
-- Только soft skills — нет академических предметов
-- Цена выше среднего по рынку
-- Нет мобильного приложения
+<div class="detailed-pros-cons">
+<div class="dpc-column dpc-pros">
+<h3>Что нравится родителям</h3>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-pro">✓</span><div><strong>Высокие оценки</strong><p>Средняя оценка занятий от родителей — 9 из 10</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-pro">✓</span><div><strong>Гибкое расписание</strong><p>Большой выбор дат и времени занятий</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-pro">✓</span><div><strong>Доступность</strong><p>Работает из любой точки мира</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-pro">✓</span><div><strong>Прозрачность</strong><p>Еженедельные персональные отчёты о прогрессе</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-pro">✓</span><div><strong>Квалификация</strong><p>Все педагоги — дипломированные специалисты</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-pro">✓</span><div><strong>Вовлечённость</strong><p>Мини-группы — каждый ребёнок участвует</p></div></div>
+</div>
+<div class="dpc-column dpc-cons">
+<h3>На что обратить внимание</h3>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-con">✗</span><div><strong>Узкая специализация</strong><p>Только soft skills — нет академических предметов</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-con">✗</span><div><strong>Цена</strong><p>Стоимость выше среднего по рынку</p></div></div>
+<div class="dpc-item"><span class="dpc-icon dpc-icon-con">✗</span><div><strong>Нет приложения</strong><p>Пока нет мобильного приложения</p></div></div>
+</div>
+</div>
 
 <h2 id="format">Как проходят занятия</h2>
 

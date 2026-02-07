@@ -27,7 +27,7 @@
 
   <!-- Hero: логотип + название + рейтинг + CTA -->
   <div class="school-hero">
-    <div class="school-hero-top">
+    <div class="school-hero-title-row">
       <div class="school-logo-placeholder">
         {{ with .Params.logo }}
         <img src="{{ . }}" alt="{{ $.Params.school_name }}">
@@ -35,11 +35,9 @@
         <div class="logo-stub"></div>
         {{ end }}
       </div>
-      <div class="school-hero-info">
-        <h1>{{ .Params.school_name | default .Title }}</h1>
-        {{ with .Params.tagline }}<p class="school-tagline">{{ . }}</p>{{ end }}
-      </div>
+      <h1>{{ .Params.school_name | default .Title }}</h1>
     </div>
+    {{ with .Params.tagline }}<p class="school-tagline">{{ . }}</p>{{ end }}
 
     <!-- Рейтинг с пояснением -->
     {{ with .Params.rating }}
@@ -56,9 +54,7 @@
     {{ end }}
 
     {{ with .Params.affiliate_url }}
-    <div class="school-hero-cta">
-      <a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать бесплатно →</a>
-    </div>
+    <a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button cta-button-full">Попробовать бесплатно →</a>
     {{ end }}
   </div>
 
