@@ -305,6 +305,45 @@ body {
 .rsc-trial { font-size: 0.8rem; color: #888; }
 .rsc-actions { display: flex; gap: 8px; }
 
+/* Expandable details */
+.rsc-details { margin-top: 14px; border-top: 1px solid #f0f0f0; }
+.rsc-expand-btn { padding: 12px 0; font-weight: 600; font-size: 0.9rem; color: #2563eb; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 6px; }
+.rsc-expand-btn::-webkit-details-marker { display: none; }
+.rsc-expand-btn::after { content: "▾"; font-size: 0.8rem; transition: transform 0.2s; }
+.rsc-details[open] .rsc-expand-btn::after { transform: rotate(180deg); }
+.rsc-details-content { padding: 4px 0 8px; }
+
+/* Scores by criteria */
+.rsc-scores { margin-bottom: 16px; }
+.rsc-scores h4 { font-size: 0.9rem; margin-bottom: 10px; color: #555; }
+.rsc-score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.rsc-score-label { font-size: 0.8rem; min-width: 130px; color: #555; }
+.rsc-score-bar-bg { flex: 1; height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+.rsc-score-bar { height: 100%; background: #f59e0b; border-radius: 3px; }
+.rsc-score-val { font-size: 0.8rem; font-weight: 600; min-width: 36px; text-align: right; color: #1a1a2e; }
+
+/* Mini pros/cons */
+.rsc-mini-verdict { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.rsc-mini-pros ul, .rsc-mini-cons ul { list-style: none; padding: 0; margin: 6px 0 0; }
+.rsc-mini-pros strong { color: #16a34a; font-size: 0.85rem; }
+.rsc-mini-cons strong { color: #dc2626; font-size: 0.85rem; }
+.rsc-mini-pros li { font-size: 0.85rem; padding: 2px 0; }
+.rsc-mini-pros li::before { content: "✓ "; color: #16a34a; font-weight: 700; }
+.rsc-mini-cons li { font-size: 0.85rem; padding: 2px 0; }
+.rsc-mini-cons li::before { content: "✗ "; color: #dc2626; font-weight: 700; }
+
+/* Internal links */
+.rsc-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.rsc-links a { font-size: 0.85rem; color: #2563eb; text-decoration: none; padding: 6px 12px; border: 1px solid #dbeafe; border-radius: 6px; transition: all 0.2s; }
+.rsc-links a:hover { background: #eff6ff; border-color: #93c5fd; }
+
+@media (max-width: 768px) {
+  .rsc-mini-verdict { grid-template-columns: 1fr; }
+  .rsc-score-label { min-width: 90px; }
+  .rsc-links { flex-direction: column; }
+  .rsc-links a { text-align: center; }
+}
+
 /* Summary table */
 .rating-compare-section { margin-top: 36px; }
 .rating-summary-table td:first-child { text-align: center; font-weight: 700; }

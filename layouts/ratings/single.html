@@ -64,7 +64,7 @@
   </div>
   {{ end }}
 
-  <!-- Main content (markdown intro) -->
+  <!-- Main content -->
   {{ .Content }}
 
   <!-- Schools list -->
@@ -104,6 +104,55 @@
           {{ with $school.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
         </div>
       </div>
+
+      <!-- Expandable details -->
+      <details class="rsc-details">
+        <summary class="rsc-expand-btn">Подробнее о школе</summary>
+        <div class="rsc-details-content">
+
+          <!-- Scores by criteria -->
+          {{ with $school.scores }}
+          <div class="rsc-scores">
+            <h4>Оценки по критериям</h4>
+            {{ range . }}
+            <div class="rsc-score-row">
+              <span class="rsc-score-label">{{ .name }}</span>
+              <div class="rsc-score-bar-bg">
+                <div class="rsc-score-bar" style="width: {{ mul .value 10 }}%"></div>
+              </div>
+              <span class="rsc-score-val">{{ .value }}/10</span>
+            </div>
+            {{ end }}
+          </div>
+          {{ end }}
+
+          <!-- Pros/cons mini -->
+          {{ if or $school.pros $school.cons }}
+          <div class="rsc-mini-verdict">
+            {{ with $school.pros }}
+            <div class="rsc-mini-pros">
+              <strong>Плюсы:</strong>
+              <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+            </div>
+            {{ end }}
+            {{ with $school.cons }}
+            <div class="rsc-mini-cons">
+              <strong>Минусы:</strong>
+              <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+            </div>
+            {{ end }}
+          </div>
+          {{ end }}
+
+          <!-- Links -->
+          <div class="rsc-links">
+            {{ with $school.url }}<a href="{{ . }}">Полный обзор школы →</a>{{ end }}
+            {{ with $school.promo_url }}<a href="{{ . }}">Промокоды и скидки →</a>{{ end }}
+            {{ with $school.reviews_url }}<a href="{{ . }}">Отзывы родителей →</a>{{ end }}
+            {{ with $school.compare_url }}<a href="{{ . }}">Сравнить с другими →</a>{{ end }}
+          </div>
+        </div>
+      </details>
     </div>
     {{ end }}
   </div>
@@ -120,8 +169,13 @@
             <th>#</th>
             <th>Школа</th>
             <th>Рейтинг</th>
+            <th>Программы</th>
+            <th>Отзывы</th>
             <th>Цена</th>
-            <th>Пробный урок</th>
+            <th>Удобство</th>
+            <th>Педагоги</th>
+            <th>Стоимость</th>
+            <th>Пробный</th>
           </tr>
         </thead>
         <tbody>
@@ -130,6 +184,11 @@
             <td>{{ add $i 1 }}</td>
             <td>{{ with $school.url }}<a href="{{ . }}">{{ $school.name }}</a>{{ else }}{{ $school.name }}{{ end }}</td>
             <td><span class="rsc-rating">★ {{ $school.rating }}</span></td>
+            {{ with $school.scores }}
+            {{ range . }}
+            <td>{{ .value }}</td>
+            {{ end }}
+            {{ end }}
             <td>{{ with $school.price }}от {{ . }}{{ else }}—{{ end }}</td>
             <td>{{ with $school.trial }}{{ . }}{{ else }}—{{ end }}</td>
           </tr>
