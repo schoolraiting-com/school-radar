@@ -1,27 +1,84 @@
 {{ define "main" }}
 <article class="container content-page school-page">
 
-  <!-- Breadcrumbs -->
-  <nav class="breadcrumbs">
-    <a href="/">Главная</a> →
-    <a href="/schools/">Школы</a> →
-    {{ with .Params.category }}<a href="/categories/{{ . }}/">{{ . }}</a> →{{ end }}
-    <span>{{ .Title }}</span>
+  <!-- Breadcrumbs (мелкие, приглушённые) -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <a href="/schools/">Школы</a>
+    <span class="bc-sep">/</span>
+    <span>{{ .Params.school_name | default .Title }}</span>
   </nav>
 
-  <!-- Hero block -->
-  <div class="school-hero">
-    <div class="school-hero-info">
-      <h1>{{ .Params.school_name | default .Title }}</h1>
-      {{ with .Params.tagline }}<p class="school-tagline">{{ . }}</p>{{ end }}
-      {{ with .Params.rating }}<div class="rating-badge">★ {{ . }}/10</div>{{ end }}
+  <!-- EEAT: автор + дата публикации -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
     </div>
+    <div class="eeat-meta">
+      <span>Опубликовано: {{ .Date.Format "02.01.2006" }}</span>
+      {{ with .Params.updated }}<span>Обновлено: {{ . }}</span>{{ end }}
+    </div>
+  </div>
+
+  <!-- Hero: логотип + название + рейтинг + CTA -->
+  <div class="school-hero">
+    <div class="school-hero-top">
+      <div class="school-logo-placeholder">
+        {{ with .Params.logo }}
+        <img src="{{ . }}" alt="{{ $.Params.school_name }}">
+        {{ else }}
+        <div class="logo-stub"></div>
+        {{ end }}
+      </div>
+      <div class="school-hero-info">
+        <h1>{{ .Params.school_name | default .Title }}</h1>
+        {{ with .Params.tagline }}<p class="school-tagline">{{ . }}</p>{{ end }}
+      </div>
+    </div>
+
+    <!-- Рейтинг с пояснением -->
+    {{ with .Params.rating }}
+    <div class="rating-block">
+      <div class="rating-score">
+        <span class="rating-number">{{ . }}</span>
+        <span class="rating-max">/10</span>
+      </div>
+      <div class="rating-details">
+        <div class="rating-stars">{{ partial "stars.html" (dict "rating" .) }}</div>
+        <span class="rating-source">На основе отзывов пользователей и оценок на Отзовик, IRecommend, Trustpilot</span>
+      </div>
+    </div>
+    {{ end }}
+
     {{ with .Params.affiliate_url }}
     <div class="school-hero-cta">
       <a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать бесплатно →</a>
     </div>
     {{ end }}
   </div>
+
+  <!-- Быстрые плюсы и минусы -->
+  {{ if or .Params.quick_pros .Params.quick_cons }}
+  <div class="quick-verdict">
+    <div class="qv-pros">
+      <h3 class="qv-title qv-title-pro">Плюсы</h3>
+      <ul>
+        {{ range .Params.quick_pros }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+    <div class="qv-cons">
+      <h3 class="qv-title qv-title-con">Минусы</h3>
+      <ul>
+        {{ range .Params.quick_cons }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </div>
+  </div>
+  {{ end }}
 
   <!-- Quick facts -->
   {{ with .Params.facts }}
@@ -34,16 +91,16 @@
   </div>
   {{ end }}
 
-  <!-- Table of contents -->
+  <!-- Содержание -->
   <div class="toc-block">
     <strong>Содержание:</strong>
     <ul>
       <li><a href="#about">О школе</a></li>
-      <li><a href="#programs">Программы обучения</a></li>
-      <li><a href="#prices">Цены и тарифы</a></li>
+      <li><a href="#programs">Программы</a></li>
+      <li><a href="#prices">Цены</a></li>
       <li><a href="#pros-cons">Плюсы и минусы</a></li>
-      <li><a href="#format">Как проходят занятия</a></li>
-      <li><a href="#reviews">Отзывы родителей</a></li>
+      <li><a href="#format">Формат занятий</a></li>
+      <li><a href="#reviews">Отзывы</a></li>
       <li><a href="#faq">Частые вопросы</a></li>
       <li><a href="#verdict">Наш вердикт</a></li>
     </ul>
@@ -57,8 +114,7 @@
   <!-- Promo link -->
   {{ with .Params.promo_url }}
   <div class="interlink-box interlink-promo">
-    <span class="interlink-icon">🏷</span>
-    <div>
+    <div class="interlink-box-content">
       <strong>Промокоды и скидки {{ $.Params.school_name }}</strong>
       <p>Актуальные промокоды и акции этой школы</p>
     </div>
@@ -121,9 +177,20 @@
   </div>
   {{ end }}
 
+  <!-- EEAT: автор внизу -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Независимая редакция School Radar анализирует онлайн-школы на основе открытых данных, отзывов пользователей и собственного тестирования. Мы не принимаем оплату за позиции в рейтингах.</p>
+      </div>
+    </div>
+  </div>
+
 </article>
 
-<!-- Schema.org markup -->
+<!-- Schema.org Review -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -144,7 +211,9 @@
   "publisher": {
     "@type": "Organization",
     "name": "School Radar"
-  }
+  },
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "dateModified": "{{ with .Params.updated }}{{ . }}{{ else }}{{ .Date.Format "2006-01-02" }}{{ end }}"
 }
 </script>
 

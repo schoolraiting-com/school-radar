@@ -1,0 +1,5 @@
+{{- $rating := .rating -}}
+{{- $full := int (math.Floor $rating) -}}
+{{- $half := gt (sub $rating (math.Floor $rating)) 0.2 -}}
+{{- range seq $full }}★{{ end -}}
+{{- if $half }}½{{ end -}}
