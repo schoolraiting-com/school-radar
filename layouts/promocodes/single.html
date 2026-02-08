@@ -1,28 +1,182 @@
 {{ define "main" }}
 <article class="container content-page promo-page">
-  <h1>{{ .Title }}</h1>
-  <p>{{ .Description }}</p>
 
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <a href="/promocodes/">Промокоды</a>
+    <span class="bc-sep">/</span>
+    <span>{{ .Params.school_name | default .Title }}</span>
+  </nav>
+
+  <!-- EEAT top -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
+    </div>
+    <div class="eeat-meta">
+      <span>Обновлено: {{ with .Params.updated }}{{ . }}{{ else }}{{ .Date.Format "02.01.2006" }}{{ end }}</span>
+    </div>
+  </div>
+
+  <h1>{{ .Title }}</h1>
+  <p class="promo-intro">{{ .Description }}</p>
+
+  <!-- School mini-card -->
+  {{ if .Params.school_name }}
+  <div class="promo-school-card">
+    <div class="psc-logo-stub"></div>
+    <div class="psc-info">
+      <strong>{{ .Params.school_name }}</strong>
+      {{ with .Params.school_rating }}<span class="rsc-rating">★ {{ . }}/10</span>{{ end }}
+    </div>
+    <div class="psc-actions">
+      {{ with .Params.school_url }}<a href="{{ . }}" class="btn-outline">Обзор школы →</a>{{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Active promos count -->
+  {{ if .Params.codes }}
+  <div class="promo-count-badge">
+    <span class="pcb-num">{{ len .Params.codes }}</span>
+    <span class="pcb-text">{{ if le (len .Params.codes) 1 }}активная акция{{ else if le (len .Params.codes) 4 }}активные акции{{ else }}активных акций{{ end }}</span>
+  </div>
+  {{ end }}
+
+  <!-- Promo cards -->
   {{ if .Params.codes }}
   <div class="promo-list">
     {{ range .Params.codes }}
-    <div class="promo-card">
+    <div class="promo-card {{ if .is_hot }}promo-card-hot{{ end }}">
+      {{ if .is_hot }}<span class="promo-hot-badge">Хит</span>{{ end }}
       <div class="promo-info">
         <span class="promo-discount">{{ .discount }}</span>
         <p class="promo-desc">{{ .description }}</p>
+        {{ with .conditions }}<span class="promo-conditions">{{ . }}</span>{{ end }}
         {{ with .expires }}<span class="promo-expires">Действует до {{ . }}</span>{{ end }}
       </div>
       <div class="promo-action">
         {{ if .code }}
-        <div class="promo-code">{{ .code }}</div>
+        <div class="promo-code-wrap">
+          <div class="promo-code" data-code="{{ .code }}">{{ .code }}</div>
+          <button class="promo-copy-btn" onclick="copyCode(this)" aria-label="Скопировать код">Скопировать</button>
+        </div>
         {{ end }}
-        {{ with .url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Активировать →</a>{{ end }}
+        {{ with .url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button promo-activate-btn">Активировать →</a>{{ end }}
       </div>
     </div>
     {{ end }}
   </div>
   {{ end }}
 
+  <!-- How to use -->
+  <div class="promo-howto">
+    <h2>Как использовать промокод</h2>
+    <div class="steps-block">
+      <div class="step"><span class="step-num">1</span><div><strong>Перейдите на сайт</strong><p>Нажмите «Активировать» на нужной акции — откроется сайт школы</p></div></div>
+      <div class="step"><span class="step-num">2</span><div><strong>Скопируйте промокод</strong><p>Нажмите «Скопировать» рядом с кодом — он сохранится в буфер обмена</p></div></div>
+      <div class="step"><span class="step-num">3</span><div><strong>Выберите курс</strong><p>Найдите подходящую программу и добавьте в корзину</p></div></div>
+      <div class="step"><span class="step-num">4</span><div><strong>Введите промокод при оплате</strong><p>Вставьте код в поле «Промокод» — скидка применится автоматически</p></div></div>
+    </div>
+  </div>
+
+  <!-- Main content (additional text) -->
   {{ .Content }}
+
+  <!-- FAQ -->
+  {{ if .Params.faq }}
+  <h2>Частые вопросы</h2>
+  <div class="faq-accordion">
+    {{ range .Params.faq }}
+    <details class="faq-item">
+      <summary>{{ .q }}</summary>
+      <p>{{ .a }}</p>
+    </details>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Related links -->
+  {{ if or .Params.school_url .Params.school_ratings_url .Params.school_compare_url }}
+  <div class="interlink-section">
+    <h2>Полезные ссылки</h2>
+    <div class="interlink-grid">
+      {{ with .Params.school_url }}
+      <a href="{{ . }}" class="interlink-card">
+        <strong>Обзор школы</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+      {{ with .Params.school_ratings_url }}
+      <a href="{{ . }}" class="interlink-card">
+        <strong>Позиция в рейтинге</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+      {{ with .Params.school_compare_url }}
+      <a href="{{ . }}" class="interlink-card">
+        <strong>Сравнить с другими</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Мы проверяем промокоды перед публикацией. Если код не работает — напишите нам, и мы обновим информацию.</p>
+      </div>
+    </div>
+  </div>
+
 </article>
+
+<!-- Copy to clipboard script -->
+<script>
+function copyCode(btn) {
+  var code = btn.previousElementSibling.getAttribute('data-code');
+  navigator.clipboard.writeText(code).then(function() {
+    btn.textContent = 'Скопировано!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = 'Скопировать';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+{{ if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{ range $i, $item := .Params.faq }}
+    {{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $item.a }}"
+      }
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
 {{ end }}

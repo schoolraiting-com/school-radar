@@ -1,0 +1,96 @@
+{{ define "main" }}
+<article class="container content-page promo-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <span>Промокоды</span>
+  </nav>
+
+  <!-- EEAT top -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
+    </div>
+    <div class="eeat-meta">
+      <span>Обновлено: {{ now.Format "02.01.2006" }}</span>
+    </div>
+  </div>
+
+  <h1>{{ .Title }}</h1>
+  <p class="promo-intro">{{ .Description }}</p>
+
+  <!-- Stats bar -->
+  {{ $totalCodes := 0 }}
+  {{ range .Pages }}
+    {{ with .Params.codes }}{{ $totalCodes = add $totalCodes (len .) }}{{ end }}
+  {{ end }}
+  <div class="promo-stats-bar">
+    <div class="promo-stat">
+      <span class="promo-stat-num">{{ len .Pages }}</span>
+      <span class="promo-stat-label">{{ if le (len .Pages) 1 }}школа{{ else if le (len .Pages) 4 }}школы{{ else }}школ{{ end }}</span>
+    </div>
+    <div class="promo-stat">
+      <span class="promo-stat-num">{{ $totalCodes }}</span>
+      <span class="promo-stat-label">{{ if le $totalCodes 1 }}промокод{{ else if le $totalCodes 4 }}промокода{{ else }}промокодов{{ end }}</span>
+    </div>
+    <div class="promo-stat">
+      <span class="promo-stat-num promo-stat-check">✓</span>
+      <span class="promo-stat-label">Проверено</span>
+    </div>
+  </div>
+
+  <!-- School promo cards -->
+  <div class="promo-schools-grid">
+    {{ range .Pages }}
+    <div class="promo-school-entry">
+      <div class="pse-header">
+        <div class="pse-logo-stub"></div>
+        <div class="pse-info">
+          <h3><a href="{{ .Permalink }}">{{ .Params.school_name | default .Title }}</a></h3>
+          {{ with .Params.school_rating }}<span class="rsc-rating">★ {{ . }}/10</span>{{ end }}
+        </div>
+      </div>
+
+      {{ with .Params.codes }}
+      <div class="pse-codes">
+        {{ range . }}
+        <div class="pse-code-row">
+          <span class="pse-discount">{{ .discount }}</span>
+          <span class="pse-desc">{{ .description }}</span>
+          {{ if .code }}<span class="pse-code-badge">{{ .code }}</span>{{ end }}
+        </div>
+        {{ end }}
+      </div>
+      {{ end }}
+
+      <div class="pse-footer">
+        {{ with .Params.codes }}
+        <span class="pse-count">{{ len . }} {{ if le (len .) 1 }}акция{{ else if le (len .) 4 }}акции{{ else }}акций{{ end }}</span>
+        {{ end }}
+        <a href="{{ .Permalink }}" class="btn-outline">Все промокоды →</a>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  {{ .Content }}
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Все промокоды проверяются перед публикацией. Мы обновляем информацию каждую неделю, чтобы вы получали только актуальные скидки.</p>
+      </div>
+    </div>
+  </div>
+
+</article>
+{{ end }}
