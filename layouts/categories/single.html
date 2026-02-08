@@ -1,0 +1,152 @@
+{{ define "main" }}
+<article class="container content-page category-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <a href="/categories/">Направления</a>
+    <span class="bc-sep">/</span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <!-- EEAT top -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
+    </div>
+    <div class="eeat-meta">
+      <span>Обновлено: {{ with .Params.updated }}{{ . }}{{ else }}{{ .Date.Format "02.01.2006" }}{{ end }}</span>
+    </div>
+  </div>
+
+  {{ with .Params.icon }}<div class="cat-icon">{{ . }}</div>{{ end }}
+  <h1>{{ .Title }}</h1>
+  <p class="cat-intro">{{ .Description }}</p>
+
+  <!-- Quick facts about category -->
+  {{ with .Params.facts }}
+  <div class="quick-facts">
+    {{ range . }}
+    <div class="fact">
+      <span class="fact-label">{{ .label }}</span>
+      <span class="fact-value">{{ .value }}</span>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Schools in this category -->
+  {{ if .Params.schools }}
+  <h2>Школы в направлении «{{ .Params.short_name | default .Title }}»</h2>
+  <div class="cat-schools-list">
+    {{ range .Params.schools }}
+    <div class="cat-school-card">
+      <div class="cat-sc-header">
+        <div class="cat-sc-logo-stub"></div>
+        <div class="cat-sc-info">
+          <h3>{{ .name }}</h3>
+          <span class="rsc-rating">★ {{ .rating }}/10</span>
+        </div>
+        {{ with .price }}<span class="price-tag">от {{ . }}</span>{{ end }}
+      </div>
+      <p class="cat-sc-desc">{{ .description }}</p>
+      {{ with .highlights }}
+      <div class="rsc-highlights">
+        {{ range . }}<span class="rsc-highlight">{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
+      <div class="cat-sc-footer">
+        <div class="cat-sc-actions">
+          {{ with .url }}<a href="{{ . }}" class="btn-outline">Обзор школы →</a>{{ end }}
+          {{ with .affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Main content -->
+  {{ .Content }}
+
+  <!-- FAQ -->
+  {{ if .Params.faq }}
+  <h2>Частые вопросы</h2>
+  <div class="faq-accordion">
+    {{ range .Params.faq }}
+    <details class="faq-item">
+      <summary>{{ .q }}</summary>
+      <p>{{ .a }}</p>
+    </details>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Related -->
+  <div class="interlink-section">
+    <h2>Смотрите также</h2>
+    <div class="interlink-grid">
+      {{ with .Params.related_rating }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+      {{ range .Params.related_categories }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+      <a href="/compare/" class="interlink-card">
+        <strong>Сравнения школ</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      <a href="/promocodes/" class="interlink-card">
+        <strong>Промокоды</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Мы анализируем школы по каждому направлению, чтобы помочь родителям найти лучший вариант для ребёнка.</p>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+{{ if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{ range $i, $item := .Params.faq }}
+    {{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $item.a }}"
+      }
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
+{{ end }}
