@@ -1,52 +1,212 @@
 {{ define "main" }}
-<section class="hero">
+
+<!-- Hero -->
+<section class="hp-hero">
   <div class="container">
-    <h1>Рейтинг детских онлайн-школ</h1>
-    <p>Независимые обзоры и сравнение онлайн-школ для детей. Помогаем выбрать лучшее образование для вашего ребёнка.</p>
+    <h1>Рейтинг детских онлайн-школ 2026</h1>
+    <p class="hp-hero-sub">Независимые обзоры, сравнения и промокоды. Помогаем родителям выбрать лучшее онлайн-образование для ребёнка.</p>
+    <div class="hp-hero-actions">
+      <a href="/ratings/best-overall-2026/" class="cta-button">Смотреть рейтинг →</a>
+      <a href="/categories/" class="btn-outline hp-hero-btn-alt">Выбрать направление</a>
+    </div>
+    <div class="hp-hero-stats">
+      <div class="hp-hero-stat">
+        <span class="hp-hero-stat-num">{{ len (where .Site.RegularPages "Section" "schools") }}+</span>
+        <span class="hp-hero-stat-label">школ</span>
+      </div>
+      <div class="hp-hero-stat">
+        <span class="hp-hero-stat-num">{{ len (where .Site.RegularPages "Section" "ratings") }}</span>
+        <span class="hp-hero-stat-label">рейтинг</span>
+      </div>
+      <div class="hp-hero-stat">
+        <span class="hp-hero-stat-num">{{ len (where .Site.RegularPages "Section" "compare") }}</span>
+        <span class="hp-hero-stat-label">сравнение</span>
+      </div>
+      <div class="hp-hero-stat">
+        <span class="hp-hero-stat-num">{{ len (where .Site.RegularPages "Section" "promocodes") }}</span>
+        <span class="hp-hero-stat-label">промокодов</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="schools-grid">
+<!-- Top schools -->
+<section class="hp-section">
   <div class="container">
-    <h2>Онлайн-школы</h2>
-    <div class="grid">
-      {{ range where .Site.RegularPages "Section" "schools" }}
-      {{ if .Params.is_main }}
-      <a href="{{ .Permalink }}" class="school-card">
-        <h3>{{ .Title }}</h3>
-        {{ with .Params.rating }}<div class="rating">★ {{ . }}/10</div>{{ end }}
-        <p>{{ .Description }}</p>
-      </a>
-      {{ end }}
+    <div class="hp-section-header">
+      <h2>Лучшие онлайн-школы</h2>
+      <a href="/ratings/best-overall-2026/" class="hp-section-link">Полный рейтинг →</a>
+    </div>
+    <div class="hp-schools-grid">
+      {{ range first 5 (where .Site.RegularPages "Section" "schools") }}
+      <div class="hp-school-card {{ if .Params.is_main }}hp-school-featured{{ end }}">
+        <div class="hp-sc-top">
+          <div class="hp-sc-logo-stub"></div>
+          <div class="hp-sc-info">
+            <h3><a href="{{ .Permalink }}">{{ .Params.school_name | default .Title }}</a></h3>
+            {{ with .Params.rating }}<span class="rsc-rating">★ {{ . }}/10</span>{{ end }}
+          </div>
+        </div>
+        {{ with .Params.tagline }}<p class="hp-sc-tagline">{{ . }}</p>{{ end }}
+        {{ with .Params.quick_pros }}
+        <ul class="hp-sc-pros">
+          {{ range first 3 . }}<li>{{ . }}</li>{{ end }}
+        </ul>
+        {{ end }}
+        <div class="hp-sc-bottom">
+          {{ with .Params.facts }}{{ with .price }}<span class="price-tag">от {{ . }}</span>{{ end }}{{ end }}
+          <div class="hp-sc-actions">
+            <a href="{{ .Permalink }}" class="btn-outline">Обзор →</a>
+            {{ with .Params.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
+          </div>
+        </div>
+      </div>
       {{ end }}
     </div>
   </div>
 </section>
 
-<section class="ratings-section">
+<!-- Categories -->
+<section class="hp-section hp-section-alt">
   <div class="container">
-    <h2>Рейтинги</h2>
-    <div class="grid">
+    <div class="hp-section-header">
+      <h2>Направления обучения</h2>
+      <a href="/categories/" class="hp-section-link">Все направления →</a>
+    </div>
+    <div class="hp-cat-grid">
+      {{ range where .Site.RegularPages "Section" "categories" }}
+      <a href="{{ .Permalink }}" class="hp-cat-card">
+        {{ with .Params.icon }}<span class="hp-cat-icon">{{ . }}</span>{{ end }}
+        <strong>{{ .Params.short_name | default .Title }}</strong>
+        <span class="hp-cat-desc">{{ .Description | truncate 80 }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Ratings -->
+<section class="hp-section">
+  <div class="container">
+    <div class="hp-section-header">
+      <h2>Рейтинги</h2>
+      <a href="/ratings/" class="hp-section-link">Все рейтинги →</a>
+    </div>
+    <div class="interlink-grid">
       {{ range where .Site.RegularPages "Section" "ratings" }}
-      <a href="{{ .Permalink }}" class="rating-card">
-        <h3>{{ .Title }}</h3>
-        <p>{{ .Description }}</p>
+      <a href="{{ .Permalink }}" class="interlink-card">
+        <strong>{{ .Title }}</strong>
+        <span class="interlink-arrow">→</span>
       </a>
       {{ end }}
     </div>
   </div>
 </section>
 
-<section class="blog-section">
+<!-- Compare -->
+{{ $comparisons := where .Site.RegularPages "Section" "compare" }}
+{{ if $comparisons }}
+<section class="hp-section hp-section-alt">
   <div class="container">
-    <h2>Блог</h2>
-    {{ range first 5 (where .Site.RegularPages "Section" "blog") }}
-    <article class="blog-preview">
-      <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-      <time>{{ .Date.Format "02.01.2006" }}</time>
-      <p>{{ .Summary }}</p>
-    </article>
-    {{ end }}
+    <div class="hp-section-header">
+      <h2>Сравнения школ</h2>
+      <a href="/compare/" class="hp-section-link">Все сравнения →</a>
+    </div>
+    <div class="interlink-grid">
+      {{ range $comparisons }}
+      <a href="{{ .Permalink }}" class="interlink-card">
+        <strong>{{ .Title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
   </div>
 </section>
+{{ end }}
+
+<!-- Promo -->
+<section class="hp-section">
+  <div class="container">
+    <div class="hp-section-header">
+      <h2>Промокоды и скидки</h2>
+      <a href="/promocodes/" class="hp-section-link">Все промокоды →</a>
+    </div>
+    <div class="hp-promo-grid">
+      {{ range first 3 (where .Site.RegularPages "Section" "promocodes") }}
+      <a href="{{ .Permalink }}" class="hp-promo-card">
+        <div class="hp-promo-top">
+          <div class="hp-promo-logo-stub"></div>
+          <strong>{{ .Params.school_name | default .Title }}</strong>
+        </div>
+        {{ with .Params.codes }}
+        {{ with index . 0 }}
+        <span class="hp-promo-discount">{{ .discount }}</span>
+        <span class="hp-promo-desc">{{ .description }}</span>
+        {{ end }}
+        {{ end }}
+        <span class="hp-promo-link">Все промокоды →</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<!-- Blog -->
+{{ $posts := where .Site.RegularPages "Section" "blog" }}
+{{ if $posts }}
+<section class="hp-section hp-section-alt">
+  <div class="container">
+    <div class="hp-section-header">
+      <h2>Блог для родителей</h2>
+      <a href="/blog/" class="hp-section-link">Все статьи →</a>
+    </div>
+    <div class="hp-blog-grid">
+      {{ range first 3 $posts }}
+      <a href="{{ .Permalink }}" class="blog-card">
+        <div class="blog-card-body">
+          {{ with .Params.tags }}
+          <div class="blog-tags">
+            {{ range first 2 . }}<span class="blog-tag">{{ . }}</span>{{ end }}
+          </div>
+          {{ end }}
+          <h3>{{ .Title }}</h3>
+          <p class="blog-card-desc">{{ .Description }}</p>
+        </div>
+        <div class="blog-card-footer">
+          <span class="blog-card-date">{{ .Date.Format "02.01.2006" }}</span>
+          {{ with .Params.reading_time }}<span class="blog-card-time">{{ . }} мин.</span>{{ end }}
+        </div>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<!-- Trust block -->
+<section class="hp-section">
+  <div class="container">
+    <div class="hp-trust">
+      <h2>Почему School Radar</h2>
+      <div class="hp-trust-grid">
+        <div class="hp-trust-item">
+          <span class="hp-trust-icon">&#9733;</span>
+          <strong>Независимые рейтинги</strong>
+          <p>Мы не берём деньги за позиции. Рейтинги основаны на анализе программ, отзывов и тестировании.</p>
+        </div>
+        <div class="hp-trust-item">
+          <span class="hp-trust-icon">&#10003;</span>
+          <strong>Проверенные промокоды</strong>
+          <p>Все промокоды проверяются перед публикацией. Обновляем каждую неделю.</p>
+        </div>
+        <div class="hp-trust-item">
+          <span class="hp-trust-icon">&#9878;</span>
+          <strong>Честные сравнения</strong>
+          <p>Детальные сравнения школ по критериям: цена, программа, отзывы, педагоги.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {{ end }}
