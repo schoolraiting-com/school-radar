@@ -236,7 +236,8 @@ body {
 .interlink-box-content { flex: 1; min-width: 200px; }
 .interlink-box-content p { margin: 2px 0 0; color: #666; font-size: 0.85rem; }
 .interlink-section { margin: 36px 0; }
-.interlink-section h2 { border-bottom: none; }
+.interlink-section h2 { border-bottom: none; margin-bottom: 4px; }
+.interlink-section-desc { font-size: 0.9rem; color: #888; margin-bottom: 12px; }
 .interlink-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
 .interlink-card { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid #e0e0e0; border-radius: 8px; text-decoration: none; color: #1a1a2e; transition: all 0.2s; font-size: 0.9rem; }
 .interlink-card:hover { border-color: #16a34a; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }

@@ -81,6 +81,57 @@
 
   {{ .Content }}
 
+  <!-- School reviews links -->
+  {{ $schools := .Pages }}
+  {{ if $schools }}
+  <div class="interlink-section">
+    <h2>Обзоры школ</h2>
+    <p class="interlink-section-desc">Подробные обзоры каждой школы — программы, цены, отзывы родителей</p>
+    <div class="interlink-grid">
+      {{ range $schools }}
+      {{ $name := .Params.school_name | default .Title }}
+      {{ with .Params.school_url }}
+      <a href="{{ . }}" class="interlink-card">
+        <strong>Обзор {{ $name }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Ratings -->
+  <div class="interlink-section">
+    <h2>Рейтинги онлайн-школ</h2>
+    <p class="interlink-section-desc">Независимые рейтинги — поможем выбрать лучшую школу</p>
+    <div class="interlink-grid">
+      {{ range (where (site.RegularPages) "Section" "ratings") }}
+      <a href="{{ .Permalink }}" class="interlink-card">
+        <strong>{{ .Title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+
+  <!-- Comparisons -->
+  {{ $comparisons := where (site.RegularPages) "Section" "compare" }}
+  {{ if $comparisons }}
+  <div class="interlink-section">
+    <h2>Сравнения школ</h2>
+    <p class="interlink-section-desc">Детальные сравнения — разбираем плюсы и минусы каждой пары</p>
+    <div class="interlink-grid">
+      {{ range $comparisons }}
+      <a href="{{ .Permalink }}" class="interlink-card">
+        <strong>{{ .Title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
   <!-- EEAT bottom -->
   <div class="eeat-block eeat-bottom">
     <div class="eeat-author">
