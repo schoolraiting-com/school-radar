@@ -3,6 +3,9 @@ languageCode = 'ru'
 title = 'School Radar — Рейтинг онлайн-школ для детей'
 defaultContentLanguage = 'ru'
 
+[taxonomies]
+  tag = 'tags'
+
 [params]
   description = 'Независимый рейтинг и обзоры детских онлайн-школ. Сравнение цен, программ и отзывов.'
   author = 'School Radar'
