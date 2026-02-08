@@ -91,28 +91,30 @@
   {{ if and .Params.school_a.scores .Params.school_b.scores }}
   <h2>Оценки по критериям</h2>
   <div class="cmp-scores">
+    <div class="cmp-scores-legend">
+      <span class="cmp-legend-a">● {{ .Params.school_a.name }}</span>
+      <span class="cmp-legend-b">● {{ .Params.school_b.name }}</span>
+    </div>
     {{ $scores_a := .Params.school_a.scores }}
     {{ $scores_b := .Params.school_b.scores }}
     {{ range $i, $sa := $scores_a }}
     {{ $sb := index $scores_b $i }}
     <div class="cmp-score-row">
       <span class="cmp-score-label">{{ $sa.name }}</span>
-      <div class="cmp-score-bars">
-        <div class="cmp-bar-wrap cmp-bar-left">
-          <span class="cmp-bar-val">{{ $sa.value }}</span>
-          <div class="cmp-bar-bg"><div class="cmp-bar cmp-bar-a" style="width: {{ mul $sa.value 10 }}%"></div></div>
+      <div class="cmp-score-pair">
+        <div class="cmp-score-line">
+          <span class="cmp-score-name cmp-name-a">{{ $.Params.school_a.name }}</span>
+          <div class="cmp-score-bar-bg"><div class="cmp-score-bar cmp-bar-a" style="width: {{ mul $sa.value 10 }}%"></div></div>
+          <span class="cmp-score-val">{{ $sa.value }}/10</span>
         </div>
-        <div class="cmp-bar-wrap cmp-bar-right">
-          <div class="cmp-bar-bg"><div class="cmp-bar cmp-bar-b" style="width: {{ mul $sb.value 10 }}%"></div></div>
-          <span class="cmp-bar-val">{{ $sb.value }}</span>
+        <div class="cmp-score-line">
+          <span class="cmp-score-name cmp-name-b">{{ $.Params.school_b.name }}</span>
+          <div class="cmp-score-bar-bg"><div class="cmp-score-bar cmp-bar-b" style="width: {{ mul $sb.value 10 }}%"></div></div>
+          <span class="cmp-score-val">{{ $sb.value }}/10</span>
         </div>
       </div>
     </div>
     {{ end }}
-    <div class="cmp-scores-legend">
-      <span class="cmp-legend-a">● {{ .Params.school_a.name }}</span>
-      <span class="cmp-legend-b">● {{ .Params.school_b.name }}</span>
-    </div>
   </div>
   {{ end }}
 
@@ -157,6 +159,38 @@
 
   <!-- Main content -->
   {{ .Content }}
+
+  <!-- Verdict block -->
+  {{ with .Params.verdict }}
+  <div class="cmp-verdict-block">
+    <h2>Наш вердикт</h2>
+    <div class="cmp-verdict-cards">
+      <div class="cmp-verdict-card cmp-verdict-a">
+        <div class="cmp-verdict-school">
+          <div class="cmp-qv-logo-stub"></div>
+          <div>
+            <strong>{{ $.Params.school_a.name }}</strong>
+            <span class="cmp-verdict-rating">★ {{ $.Params.school_a.rating }}/10</span>
+          </div>
+        </div>
+        <p>{{ .school_a }}</p>
+        {{ with $.Params.school_a.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cmp-verdict-btn">Попробовать бесплатно →</a>{{ end }}
+      </div>
+      <div class="cmp-verdict-card cmp-verdict-b">
+        <div class="cmp-verdict-school">
+          <div class="cmp-qv-logo-stub"></div>
+          <div>
+            <strong>{{ $.Params.school_b.name }}</strong>
+            <span class="cmp-verdict-rating">★ {{ $.Params.school_b.rating }}/10</span>
+          </div>
+        </div>
+        <p>{{ .school_b }}</p>
+        {{ with $.Params.school_b.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cmp-verdict-btn">Попробовать бесплатно →</a>{{ end }}
+      </div>
+    </div>
+    {{ with .summary }}<p class="cmp-verdict-summary">{{ . }}</p>{{ end }}
+  </div>
+  {{ end }}
 
   <!-- CTA buttons -->
   {{ if and .Params.school_a .Params.school_b }}
