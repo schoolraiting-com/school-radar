@@ -1,0 +1,162 @@
+{{ define "main" }}
+<article class="container content-page blog-article">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <a href="/blog/">Блог</a>
+    <span class="bc-sep">/</span>
+    <span>{{ .Title }}</span>
+  </nav>
+
+  <!-- EEAT top -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">{{ .Params.author | default "Команда School Radar" }}</span>
+        <span class="eeat-role">{{ .Params.author_role | default "Независимая редакция" }}</span>
+      </div>
+    </div>
+    <div class="eeat-meta">
+      <span>{{ .Date.Format "02.01.2006" }}</span>
+      {{ with .Params.reading_time }}<span>{{ . }} мин. чтения</span>{{ end }}
+    </div>
+  </div>
+
+  <!-- Tags -->
+  {{ with .Params.tags }}
+  <div class="blog-tags blog-tags-top">
+    {{ range . }}
+    <span class="blog-tag">{{ . }}</span>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <h1>{{ .Title }}</h1>
+
+  {{ with .Description }}
+  <p class="blog-lead">{{ . }}</p>
+  {{ end }}
+
+  <!-- TOC -->
+  {{ if .Params.toc }}
+  <div class="toc-block">
+    <strong>Содержание</strong>
+    {{ .TableOfContents }}
+  </div>
+  {{ end }}
+
+  <!-- Main content -->
+  <div class="blog-content">
+    {{ .Content }}
+  </div>
+
+  <!-- Related schools -->
+  {{ with .Params.related_schools }}
+  <div class="blog-related-schools">
+    <h2>Упомянутые школы</h2>
+    <div class="interlink-grid">
+      {{ range . }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .name }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- FAQ -->
+  {{ if .Params.faq }}
+  <h2>Частые вопросы</h2>
+  <div class="faq-accordion">
+    {{ range .Params.faq }}
+    <details class="faq-item">
+      <summary>{{ .q }}</summary>
+      <p>{{ .a }}</p>
+    </details>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Related posts -->
+  {{ with .Params.related_posts }}
+  <div class="interlink-section">
+    <h2>Читайте также</h2>
+    <div class="interlink-grid">
+      {{ range . }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- CTA -->
+  {{ with .Params.cta }}
+  <div class="cta-box">
+    <h3>{{ .title }}</h3>
+    <p>{{ .text }}</p>
+    <a href="{{ .url }}" target="_blank" rel="nofollow sponsored" class="cta-button">{{ .button }} →</a>
+  </div>
+  {{ end }}
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">{{ .Params.author | default "Команда School Radar" }}</span>
+        <p class="eeat-bio">{{ .Params.author_bio | default "Редакция School Radar помогает родителям выбрать лучшее онлайн-образование для детей. Все материалы основаны на независимом анализе." }}</p>
+      </div>
+    </div>
+  </div>
+
+</article>
+
+{{ if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{ range $i, $item := .Params.faq }}
+    {{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $item.a }}"
+      }
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "datePublished": "{{ .Date.Format "2006-01-02" }}",
+  "dateModified": "{{ with .Params.updated }}{{ . }}{{ else }}{{ $.Date.Format "2006-01-02" }}{{ end }}",
+  "author": {
+    "@type": "Organization",
+    "name": "{{ .Params.author | default "School Radar" }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "School Radar"
+  }
+}
+</script>
+
+{{ end }}

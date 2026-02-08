@@ -503,10 +503,36 @@ body {
 .schools-grid h2, .ratings-section h2, .blog-section h2 { font-size: 1.5rem; }
 
 /* ========== BLOG ========== */
-.blog-preview { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #eee; }
-.blog-preview h3 a { color: #1a1a2e; text-decoration: none; }
-.blog-preview h3 a:hover { color: #16a34a; }
-.blog-preview time { color: #888; font-size: 0.9rem; }
+/* Listing page */
+.blog-list-intro { font-size: 1.05rem; color: #666; margin-bottom: 28px; }
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.blog-card { display: flex; flex-direction: column; border: 1px solid #e0e0e0; border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.2s; overflow: hidden; }
+.blog-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); border-color: #16a34a; }
+.blog-card-body { padding: 20px 20px 12px; flex: 1; }
+.blog-card h3 { font-size: 1.05rem; color: #1a1a2e; margin: 0 0 8px; line-height: 1.35; }
+.blog-card-desc { font-size: 0.9rem; color: #666; margin: 0; }
+.blog-card-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-top: 1px solid #f0f0f0; font-size: 0.8rem; color: #999; }
+.blog-card-time { color: #aaa; }
+
+/* Tags */
+.blog-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.blog-tags-top { margin-bottom: 14px; }
+.blog-tag { font-size: 0.75rem; padding: 3px 10px; background: #f0f0f5; color: #555; border-radius: 20px; font-weight: 500; }
+
+/* Article page */
+.blog-lead { font-size: 1.1rem; color: #444; line-height: 1.6; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid #f0f0f0; }
+.blog-content { margin-bottom: 32px; }
+.blog-content h2 { font-size: 1.3rem; margin-top: 32px; margin-bottom: 12px; }
+.blog-content h3 { font-size: 1.1rem; margin-top: 24px; margin-bottom: 10px; }
+.blog-content p { margin-bottom: 14px; line-height: 1.7; }
+.blog-content ul, .blog-content ol { margin-bottom: 14px; padding-left: 24px; }
+.blog-content li { margin-bottom: 6px; line-height: 1.6; }
+.blog-content blockquote { border-left: 4px solid #16a34a; background: #f9fafb; padding: 14px 20px; margin: 20px 0; border-radius: 0 8px 8px 0; font-style: italic; color: #555; }
+.blog-content blockquote p { margin: 0; }
+.blog-content img { max-width: 100%; border-radius: 8px; margin: 16px 0; }
+
+/* Related schools in article */
+.blog-related-schools { margin: 28px 0; }
 
 /* ========== FOOTER ========== */
 .site-footer { background: #f5f5f5; padding: 24px 0; margin-top: 48px; text-align: center; color: #888; font-size: 0.9rem; }
@@ -551,6 +577,10 @@ body {
   .rsc-actions .cta-button, .rsc-actions .btn-outline { flex: 1; text-align: center; font-size: 0.85rem; padding: 10px; }
   .methodology-label { min-width: 100px; font-size: 0.8rem; }
   .rating-quicknav-list { gap: 6px; }
+
+  /* Blog */
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-lead { font-size: 1rem; }
 
   /* Verdict stacked */
   .verdict-block { flex-direction: column; align-items: center; text-align: center; }

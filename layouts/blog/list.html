@@ -1,0 +1,63 @@
+{{ define "main" }}
+<article class="container content-page blog-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <span>Блог</span>
+  </nav>
+
+  <h1>{{ .Title }}</h1>
+  <p class="blog-list-intro">{{ .Description }}</p>
+
+  <!-- Posts -->
+  <div class="blog-grid">
+    {{ range .Pages.ByDate.Reverse }}
+    <a href="{{ .Permalink }}" class="blog-card">
+      <div class="blog-card-body">
+        {{ with .Params.tags }}
+        <div class="blog-tags">
+          {{ range (first 2 .) }}
+          <span class="blog-tag">{{ . }}</span>
+          {{ end }}
+        </div>
+        {{ end }}
+        <h3>{{ .Title }}</h3>
+        <p class="blog-card-desc">{{ .Description }}</p>
+      </div>
+      <div class="blog-card-footer">
+        <span class="blog-card-date">{{ .Date.Format "02.01.2006" }}</span>
+        {{ with .Params.reading_time }}<span class="blog-card-time">{{ . }} мин.</span>{{ end }}
+      </div>
+    </a>
+    {{ end }}
+  </div>
+
+  {{ .Content }}
+
+  <!-- Interlinks to other sections -->
+  <div class="interlink-section">
+    <h2>Разделы сайта</h2>
+    <div class="interlink-grid">
+      <a href="/schools/" class="interlink-card">
+        <strong>Все школы</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      <a href="/ratings/" class="interlink-card">
+        <strong>Рейтинги</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      <a href="/compare/" class="interlink-card">
+        <strong>Сравнения</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      <a href="/promocodes/" class="interlink-card">
+        <strong>Промокоды</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+</article>
+{{ end }}
