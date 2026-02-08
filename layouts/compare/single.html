@@ -1,9 +1,63 @@
 {{ define "main" }}
 <article class="container content-page compare-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <a href="/compare/">Сравнения</a>
+    <span class="bc-sep">/</span>
+    <span>{{ .Params.school_a.name }} vs {{ .Params.school_b.name }}</span>
+  </nav>
+
+  <!-- EEAT top -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
+    </div>
+    <div class="eeat-meta">
+      <span>Обновлено: {{ with .Params.updated }}{{ . }}{{ else }}{{ .Date.Format "02.01.2006" }}{{ end }}</span>
+    </div>
+  </div>
+
   <h1>{{ .Title }}</h1>
   <p class="compare-subtitle">{{ .Description }}</p>
 
   {{ if and .Params.school_a .Params.school_b }}
+
+  <!-- Quick verdict -->
+  <div class="cmp-quick-verdict">
+    <div class="cmp-qv-card cmp-qv-a">
+      <div class="cmp-qv-header">
+        <div class="cmp-qv-logo-stub"></div>
+        <div>
+          <strong>{{ .Params.school_a.name }}</strong>
+          <span class="rsc-rating">★ {{ .Params.school_a.rating }}/10</span>
+        </div>
+      </div>
+      <p class="cmp-qv-text">{{ .Params.school_a.verdict }}</p>
+      {{ with .Params.school_a.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button cmp-qv-btn">Попробовать →</a>{{ end }}
+    </div>
+    <div class="cmp-vs-badge">VS</div>
+    <div class="cmp-qv-card cmp-qv-b">
+      <div class="cmp-qv-header">
+        <div class="cmp-qv-logo-stub"></div>
+        <div>
+          <strong>{{ .Params.school_b.name }}</strong>
+          <span class="rsc-rating">★ {{ .Params.school_b.rating }}/10</span>
+        </div>
+      </div>
+      <p class="cmp-qv-text">{{ .Params.school_b.verdict }}</p>
+      {{ with .Params.school_b.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button cta-button-alt cmp-qv-btn">Попробовать →</a>{{ end }}
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  <h2>Сравнительная таблица</h2>
   <div class="compare-table-wrap">
     <table class="compare-table">
       <thead>
@@ -15,45 +69,174 @@
       </thead>
       <tbody>
         <tr>
-          <td>Общий рейтинг</td>
-          <td><span class="rating-num">★ {{ .Params.school_a.rating }}/10</span></td>
-          <td><span class="rating-num">★ {{ .Params.school_b.rating }}/10</span></td>
+          <td>Рейтинг</td>
+          <td><span class="cmp-rating-cell">★ {{ .Params.school_a.rating }}/10</span></td>
+          <td><span class="cmp-rating-cell">★ {{ .Params.school_b.rating }}/10</span></td>
         </tr>
-        <tr>
-          <td>Цена</td>
-          <td>{{ .Params.school_a.price }}</td>
-          <td>{{ .Params.school_b.price }}</td>
-        </tr>
-        <tr>
-          <td>Возраст</td>
-          <td>{{ .Params.school_a.age }}</td>
-          <td>{{ .Params.school_b.age }}</td>
-        </tr>
-        <tr>
-          <td>Пробный урок</td>
-          <td>{{ .Params.school_a.trial }}</td>
-          <td>{{ .Params.school_b.trial }}</td>
-        </tr>
-        <tr>
-          <td>Направления</td>
-          <td>{{ .Params.school_a.subjects }}</td>
-          <td>{{ .Params.school_b.subjects }}</td>
-        </tr>
-        <tr>
-          <td>Формат</td>
-          <td>{{ .Params.school_a.format }}</td>
-          <td>{{ .Params.school_b.format }}</td>
-        </tr>
+        <tr><td>Цена</td><td>{{ .Params.school_a.price }}</td><td>{{ .Params.school_b.price }}</td></tr>
+        <tr><td>Возраст</td><td>{{ .Params.school_a.age }}</td><td>{{ .Params.school_b.age }}</td></tr>
+        <tr><td>Направления</td><td>{{ .Params.school_a.subjects }}</td><td>{{ .Params.school_b.subjects }}</td></tr>
+        <tr><td>Формат</td><td>{{ .Params.school_a.format }}</td><td>{{ .Params.school_b.format }}</td></tr>
+        <tr><td>Пробный урок</td><td>{{ .Params.school_a.trial }}</td><td>{{ .Params.school_b.trial }}</td></tr>
+        {{ with .Params.extra_rows }}
+        {{ range . }}
+        <tr><td>{{ .label }}</td><td>{{ .a }}</td><td>{{ .b }}</td></tr>
+        {{ end }}
+        {{ end }}
       </tbody>
     </table>
   </div>
 
-  <div class="compare-cta">
-    {{ with .Params.school_a.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать {{ $.Params.school_a.name }} →</a>{{ end }}
-    {{ with .Params.school_b.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button cta-button-alt">Попробовать {{ $.Params.school_b.name }} →</a>{{ end }}
+  <!-- Scores comparison -->
+  {{ if and .Params.school_a.scores .Params.school_b.scores }}
+  <h2>Оценки по критериям</h2>
+  <div class="cmp-scores">
+    {{ $scores_a := .Params.school_a.scores }}
+    {{ $scores_b := .Params.school_b.scores }}
+    {{ range $i, $sa := $scores_a }}
+    {{ $sb := index $scores_b $i }}
+    <div class="cmp-score-row">
+      <span class="cmp-score-label">{{ $sa.name }}</span>
+      <div class="cmp-score-bars">
+        <div class="cmp-bar-wrap cmp-bar-left">
+          <span class="cmp-bar-val">{{ $sa.value }}</span>
+          <div class="cmp-bar-bg"><div class="cmp-bar cmp-bar-a" style="width: {{ mul $sa.value 10 }}%"></div></div>
+        </div>
+        <div class="cmp-bar-wrap cmp-bar-right">
+          <div class="cmp-bar-bg"><div class="cmp-bar cmp-bar-b" style="width: {{ mul $sb.value 10 }}%"></div></div>
+          <span class="cmp-bar-val">{{ $sb.value }}</span>
+        </div>
+      </div>
+    </div>
+    {{ end }}
+    <div class="cmp-scores-legend">
+      <span class="cmp-legend-a">● {{ .Params.school_a.name }}</span>
+      <span class="cmp-legend-b">● {{ .Params.school_b.name }}</span>
+    </div>
   </div>
   {{ end }}
 
+  <!-- Pros/cons side by side -->
+  {{ if or .Params.school_a.pros .Params.school_b.pros }}
+  <h2>Плюсы и минусы</h2>
+  <div class="cmp-pros-cons">
+    <div class="cmp-pc-column">
+      <h3>{{ .Params.school_a.name }}</h3>
+      {{ with .Params.school_a.pros }}
+      <div class="cmp-pc-section cmp-pc-pros">
+        <strong>Плюсы:</strong>
+        <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+      {{ end }}
+      {{ with .Params.school_a.cons }}
+      <div class="cmp-pc-section cmp-pc-cons">
+        <strong>Минусы:</strong>
+        <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+      {{ end }}
+    </div>
+    <div class="cmp-pc-column">
+      <h3>{{ .Params.school_b.name }}</h3>
+      {{ with .Params.school_b.pros }}
+      <div class="cmp-pc-section cmp-pc-pros">
+        <strong>Плюсы:</strong>
+        <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+      {{ end }}
+      {{ with .Params.school_b.cons }}
+      <div class="cmp-pc-section cmp-pc-cons">
+        <strong>Минусы:</strong>
+        <ul>{{ range . }}<li>{{ . }}</li>{{ end }}</ul>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  {{ end }}
+
+  <!-- Main content -->
   {{ .Content }}
+
+  <!-- CTA buttons -->
+  {{ if and .Params.school_a .Params.school_b }}
+  <div class="cmp-final-cta">
+    <h2>Попробуйте бесплатно</h2>
+    <p>У обеих школ есть бесплатный пробный урок — запишитесь и сравните сами</p>
+    <div class="compare-cta">
+      {{ with .Params.school_a.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">{{ $.Params.school_a.name }} — пробный урок</a>{{ end }}
+      {{ with .Params.school_b.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button cta-button-alt">{{ $.Params.school_b.name }} — пробный урок</a>{{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- FAQ -->
+  {{ if .Params.faq }}
+  <h2>Частые вопросы</h2>
+  <div class="faq-accordion">
+    {{ range .Params.faq }}
+    <details class="faq-item">
+      <summary>{{ .q }}</summary>
+      <p>{{ .a }}</p>
+    </details>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Related -->
+  {{ if or .Params.related_comparisons .Params.related_links }}
+  <div class="interlink-section">
+    <h2>Смотрите также</h2>
+    <div class="interlink-grid">
+      {{ range .Params.related_links }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+      {{ range .Params.related_comparisons }}
+      <a href="{{ .url }}" class="interlink-card">
+        <strong>{{ .title }}</strong>
+        <span class="interlink-arrow">→</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Сравнение подготовлено на основе анализа программ, отзывов родителей и собственного тестирования. Мы не получаем оплату за позиции в сравнениях.</p>
+      </div>
+    </div>
+  </div>
+
 </article>
+
+{{ if .Params.faq }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{ range $i, $item := .Params.faq }}
+    {{ if $i }},{{ end }}
+    {
+      "@type": "Question",
+      "name": "{{ $item.q }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ $item.a }}"
+      }
+    }
+    {{ end }}
+  ]
+}
+</script>
+{{ end }}
+
 {{ end }}

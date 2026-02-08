@@ -1,0 +1,66 @@
+{{ define "main" }}
+<article class="container content-page compare-page">
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <span>Сравнения</span>
+  </nav>
+
+  <!-- EEAT top -->
+  <div class="eeat-block">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <span class="eeat-role">Независимая редакция</span>
+      </div>
+    </div>
+  </div>
+
+  <h1>{{ .Title }}</h1>
+  <p class="compare-subtitle">{{ .Description }}</p>
+
+  <!-- Comparison cards grid -->
+  <div class="cmp-list-grid">
+    {{ range .Pages }}
+    <a href="{{ .Permalink }}" class="cmp-list-card">
+      <div class="cmp-list-schools">
+        <div class="cmp-list-school">
+          <div class="cmp-list-logo-stub"></div>
+          <div>
+            <strong>{{ .Params.school_a.name }}</strong>
+            <span class="rsc-rating">★ {{ .Params.school_a.rating }}</span>
+          </div>
+        </div>
+        <span class="cmp-list-vs">VS</span>
+        <div class="cmp-list-school">
+          <div class="cmp-list-logo-stub"></div>
+          <div>
+            <strong>{{ .Params.school_b.name }}</strong>
+            <span class="rsc-rating">★ {{ .Params.school_b.rating }}</span>
+          </div>
+        </div>
+      </div>
+      <p class="cmp-list-desc">{{ .Description }}</p>
+      <span class="cmp-list-link">Читать сравнение →</span>
+    </a>
+    {{ end }}
+  </div>
+
+  {{ .Content }}
+
+  <!-- EEAT bottom -->
+  <div class="eeat-block eeat-bottom">
+    <div class="eeat-author">
+      <div class="eeat-avatar">SR</div>
+      <div>
+        <span class="eeat-name">Команда School Radar</span>
+        <p class="eeat-bio">Все сравнения подготовлены на основе независимого анализа. Мы тестируем школы лично и не принимаем оплату за результаты.</p>
+      </div>
+    </div>
+  </div>
+
+</article>
+{{ end }}
