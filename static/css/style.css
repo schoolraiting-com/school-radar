@@ -55,7 +55,7 @@ body {
   .header-nav { max-height: none; background: #0a1628; }
   .header-nav .container { flex-direction: row; gap: 0; padding-top: 0; padding-bottom: 0; }
   .header-nav a { padding: 10px 16px; border-bottom: none; font-size: 0.9rem; }
-  .header-nav a:first-child { padding-left: 0; }
+  .header-nav a:first-child { padding-left: 16px; }
   .header-nav a:hover { background: #0f2240; }
 }
 
