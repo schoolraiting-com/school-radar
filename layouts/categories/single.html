@@ -127,6 +127,8 @@
 
 </article>
 
+{{ partial "breadcrumb-schema.html" (dict "items" (slice (dict "name" "Главная" "url" .Site.BaseURL) (dict "name" "Направления" "url" (print .Site.BaseURL "categories/")) (dict "name" .Title))) }}
+
 {{ if .Params.faq }}
 <script type="application/ld+json">
 {

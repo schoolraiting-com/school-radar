@@ -240,6 +240,8 @@
 
 </article>
 
+{{ partial "breadcrumb-schema.html" (dict "items" (slice (dict "name" "Главная" "url" .Site.BaseURL) (dict "name" "Рейтинги" "url" (print .Site.BaseURL "ratings/")) (dict "name" .Title))) }}
+
 {{ if .Params.faq }}
 <script type="application/ld+json">
 {

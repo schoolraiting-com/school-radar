@@ -144,4 +144,7 @@
   </div>
 
 </article>
+
+{{ partial "breadcrumb-schema.html" (dict "items" (slice (dict "name" "Главная" "url" .Site.BaseURL) (dict "name" "Промокоды"))) }}
+
 {{ end }}

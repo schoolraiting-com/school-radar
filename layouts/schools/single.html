@@ -235,4 +235,6 @@
 </script>
 {{ end }}
 
+{{ partial "breadcrumb-schema.html" (dict "items" (slice (dict "name" "Главная" "url" .Site.BaseURL) (dict "name" "Школы" "url" (print .Site.BaseURL "schools/")) (dict "name" (.Params.school_name | default .Title)))) }}
+
 {{ end }}

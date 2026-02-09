@@ -157,6 +157,8 @@ function copyCode(btn) {
 }
 </script>
 
+{{ partial "breadcrumb-schema.html" (dict "items" (slice (dict "name" "Главная" "url" .Site.BaseURL) (dict "name" "Промокоды" "url" (print .Site.BaseURL "promocodes/")) (dict "name" (.Params.school_name | default .Title)))) }}
+
 {{ if .Params.faq }}
 <script type="application/ld+json">
 {

@@ -1,0 +1,62 @@
+{{ define "main" }}
+<article class="container content-page">
+
+  <nav class="breadcrumbs" aria-label="Навигация">
+    <a href="/">Главная</a>
+    <span class="bc-sep">/</span>
+    <span>Школы</span>
+  </nav>
+
+  <h1>{{ .Title }}</h1>
+  <p class="cat-intro">{{ .Description }}</p>
+
+  <div class="hp-schools-grid">
+    {{ range .Pages }}
+    <div class="hp-school-card {{ if .Params.is_main }}hp-school-featured{{ end }}">
+      <div class="hp-sc-top">
+        <div class="hp-sc-logo-stub"></div>
+        <div class="hp-sc-info">
+          <h3><a href="{{ .Permalink }}">{{ .Params.school_name | default .Title }}</a></h3>
+          {{ with .Params.rating }}<span class="rsc-rating">★ {{ . }}/10</span>{{ end }}
+        </div>
+      </div>
+      {{ with .Params.tagline }}<p class="hp-sc-tagline">{{ . }}</p>{{ end }}
+      {{ with .Params.quick_pros }}
+      <ul class="hp-sc-pros">
+        {{ range first 3 . }}<li>{{ . }}</li>{{ end }}
+      </ul>
+      {{ end }}
+      <div class="hp-sc-bottom">
+        {{ with .Params.facts }}{{ with .price }}<span class="price-tag">от {{ . }}</span>{{ end }}{{ end }}
+        <div class="hp-sc-actions">
+          <a href="{{ $.Permalink }}" class="btn-outline">Обзор →</a>
+          {{ with .Params.affiliate_url }}<a href="{{ . }}" target="_blank" rel="nofollow sponsored" class="cta-button">Попробовать →</a>{{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <div class="interlink-section">
+    <h2>Разделы сайта</h2>
+    <div class="interlink-grid">
+      <a href="/ratings/" class="interlink-card"><strong>Рейтинги</strong><span class="interlink-arrow">→</span></a>
+      <a href="/compare/" class="interlink-card"><strong>Сравнения</strong><span class="interlink-arrow">→</span></a>
+      <a href="/categories/" class="interlink-card"><strong>Направления</strong><span class="interlink-arrow">→</span></a>
+      <a href="/promocodes/" class="interlink-card"><strong>Промокоды</strong><span class="interlink-arrow">→</span></a>
+    </div>
+  </div>
+
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Главная", "item": "{{ .Site.BaseURL }}"},
+    {"@type": "ListItem", "position": 2, "name": "Школы"}
+  ]
+}
+</script>
+{{ end }}

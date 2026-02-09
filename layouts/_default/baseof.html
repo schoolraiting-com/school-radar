@@ -6,6 +6,8 @@
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
   <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta property="og:image" content="{{ .Site.BaseURL }}og-image.png">
   <link rel="stylesheet" href="/css/style.css">
   {{ template "_internal/opengraph.html" . }}
 </head>
@@ -15,5 +17,11 @@
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}
+  <script>
+  document.getElementById('btn-menu').addEventListener('click',function(){
+    document.getElementById('main-nav').classList.toggle('nav-open');
+    this.classList.toggle('burger-open');
+  });
+  </script>
 </body>
 </html>

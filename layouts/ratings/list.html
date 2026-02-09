@@ -1,50 +1,50 @@
 {{ define "main" }}
-<article class="container content-page category-page">
+<article class="container content-page">
 
-  <!-- Breadcrumbs -->
   <nav class="breadcrumbs" aria-label="Навигация">
     <a href="/">Главная</a>
     <span class="bc-sep">/</span>
-    <span>Направления</span>
+    <span>Рейтинги</span>
   </nav>
 
   <h1>{{ .Title }}</h1>
   <p class="cat-intro">{{ .Description }}</p>
 
-  <!-- Categories grid -->
   <div class="cat-grid">
     {{ range .Pages }}
     <a href="{{ .Permalink }}" class="cat-card">
-      {{ with .Params.icon }}<span class="cat-card-icon">{{ . }}</span>{{ end }}
       <div class="cat-card-body">
         <h3>{{ .Title }}</h3>
         <p>{{ .Description }}</p>
       </div>
       <div class="cat-card-footer">
-        {{ with .Params.schools }}
-        <span class="cat-card-count">{{ len . }} {{ if le (len .) 1 }}школа{{ else if le (len .) 4 }}школы{{ else }}школ{{ end }}</span>
-        {{ end }}
+        {{ with .Params.schools }}<span class="cat-card-count">{{ len . }} школ</span>{{ end }}
         <span class="cat-card-arrow">→</span>
       </div>
     </a>
     {{ end }}
   </div>
 
-  {{ .Content }}
-
-  <!-- Interlinks -->
   <div class="interlink-section">
     <h2>Разделы сайта</h2>
     <div class="interlink-grid">
       <a href="/schools/" class="interlink-card"><strong>Все школы</strong><span class="interlink-arrow">→</span></a>
-      <a href="/ratings/" class="interlink-card"><strong>Рейтинги</strong><span class="interlink-arrow">→</span></a>
       <a href="/compare/" class="interlink-card"><strong>Сравнения</strong><span class="interlink-arrow">→</span></a>
-      <a href="/blog/" class="interlink-card"><strong>Блог</strong><span class="interlink-arrow">→</span></a>
+      <a href="/categories/" class="interlink-card"><strong>Направления</strong><span class="interlink-arrow">→</span></a>
+      <a href="/promocodes/" class="interlink-card"><strong>Промокоды</strong><span class="interlink-arrow">→</span></a>
     </div>
   </div>
 
 </article>
 
-{{ partial "breadcrumb-schema.html" (dict "items" (slice (dict "name" "Главная" "url" .Site.BaseURL) (dict "name" "Направления"))) }}
-
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Главная", "item": "{{ .Site.BaseURL }}"},
+    {"@type": "ListItem", "position": 2, "name": "Рейтинги"}
+  ]
+}
+</script>
 {{ end }}
