@@ -71,8 +71,8 @@ body {
 .hp-hero h1 { font-size: 2.2rem; margin-bottom: 12px; }
 .hp-hero-sub { font-size: 1.1rem; color: #b0b0c0; max-width: 620px; margin: 0 auto 24px; }
 .hp-hero-actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
-.hp-hero-btn-alt { color: #fff; border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.1); padding: 14px 32px; font-size: 1rem; }
-.hp-hero-btn-alt:hover { background: rgba(255,255,255,0.2); color: #fff; border-color: rgba(255,255,255,0.7); }
+.hp-hero-btn-alt { background: transparent; border: 2px solid rgba(255,255,255,0.5); color: #fff; }
+.hp-hero-btn-alt:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
 .hp-hero-stats { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
 .hp-hero-stat { text-align: center; }
 .hp-hero-stat-num { display: block; font-size: 1.6rem; font-weight: 800; color: #fff; }
